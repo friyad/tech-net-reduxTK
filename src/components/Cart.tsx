@@ -12,10 +12,16 @@ import {
   HiOutlineTrash,
 } from 'react-icons/hi';
 import { Button } from './ui/button';
-import { useAppSelector } from '@/redux/hook';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import {
+  adToCart,
+  quantityMinus,
+  removeFromCart,
+} from '@/redux/features/cart/cartSlice';
 
 export default function Cart() {
-  const { products } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const { products, total } = useAppSelector((state) => state.cart);
 
   return (
     <Sheet>
@@ -27,7 +33,7 @@ export default function Cart() {
       <SheetContent className="overflow-auto relative">
         <SheetHeader>
           <SheetTitle>Cart</SheetTitle>
-          <h1>Total: {products.length.toFixed(2)}</h1>
+          <h1>Total: {total.toFixed(2)}</h1>
         </SheetHeader>
         <div className="space-y-5">
           {products.map((product) => (
@@ -47,13 +53,14 @@ export default function Cart() {
                 </p>
               </div>
               <div className="border-l pl-5 flex flex-col justify-between">
-                <Button>
+                <Button onClick={() => dispatch(adToCart(product))}>
                   <HiOutlinePlus size="20" />
                 </Button>
-                <Button>
+                <Button onClick={() => dispatch(quantityMinus(product))}>
                   <HiMinus size="20" />
                 </Button>
                 <Button
+                  onClick={() => dispatch(removeFromCart(product))}
                   variant="destructive"
                   className="bg-red-500 hover:bg-red-400"
                 >
