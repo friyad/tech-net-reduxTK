@@ -1,0 +1,38 @@
+service: celesti-wear-server
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /products
+          method: ANY
+      - httpApi:
+          path: /product
+          method: POST
+      - httpApi:
+          path: /product/{id}
+          method: GET
+      - httpApi:
+          path: /product/{id}
+          method: DELETE
+      - httpApi:
+          path: /comment/{id}
+          method: POST
+      - httpApi:
+          path: /comment/{id}
+          method: GET
+      - httpApi:
+          path: /user
+          method: POST
+      - httpApi:
+          path: /user/{email}
+          method: GET
+      - httpApi:
+          path: /
+          method: GET
